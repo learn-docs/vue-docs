@@ -1,0 +1,80 @@
+{
+  "name": "vue-docs",
+  "version": "1.3.0",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "release": "vue-cli-service build --dest lib --target lib src/index.js",
+    "lint": "vue-cli-service lint"
+  },
+  "main": "lib/vue-ui-docs.common.js",
+  "dependencies": {
+    "core-js": "^3.6.4",
+    "vue": "^2.6.11",
+    "vue-router": "^3.1.6"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.3.0",
+    "@vue/cli-plugin-eslint": "^4.3.0",
+    "@vue/cli-plugin-router": "^4.3.0",
+    "@vue/cli-service": "^4.3.0",
+    "@vue/eslint-config-prettier": "^6.0.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-vue": "^6.2.2",
+    "highlight.js": "^11.2.0",
+    "lint-staged": "^9.5.0",
+    "markdown-it": "^10.0.0",
+    "markdown-it-container": "^2.0.0",
+    "prettier": "^1.19.1",
+    "sass": "^1.37.2",
+    "sass-loader": "^8.0.2",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "keywords": [
+    "vue",
+    "components",
+    "markdown"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kitorv/vue-ui-docs.git"
+  },
+  "homepage": "https://kitorv.github.io/vue-ui-docs/",
+  "bugs": {
+    "url": "https://github.com/kitorv/vue-ui-docs/issues"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended",
+      "@vue/prettier"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "eslintIgnore": [
+    "**/*.md"
+  ],
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,vue}": [
+      "vue-cli-service lint",
+      "git add"
+    ]
+  }
+}
