@@ -1,9 +1,9 @@
-# VUE-UI-DOCS
+# VUE-DOCS
 
-ä»£ç ç¤ºä¾‹æ ¼å¼ï¼š
+´úÂëÊ¾Àı¸ñÊ½£º
 
 ````markdown
-:::snippet é€šè¿‡ `v-button` æ ‡ç­¾åˆå§‹åŒ–æŒ‰é’®ã€‚
+:::snippet Í¨¹ı `v-button` ±êÇ©³õÊ¼»¯°´Å¥¡£
 
 ```html
 <template>
@@ -16,27 +16,27 @@
 :::
 ````
 
-è§£æç¤ºä¾‹æ¸²æŸ“ï¼š
+½âÎöÊ¾ÀıäÖÈ¾£º
 
-![ä»£ç è§£æç¤ºä¾‹](site/images/vue-snippet-02.png)
+![´úÂë½âÎöÊ¾Àı](site/images/vue-snippet-02.png)
 
-## ç»“æ„è°ƒæ•´
+## ½á¹¹µ÷Õû
 
-1. æ–‡ä»¶ç»“æ„è°ƒæ•´
+1. ÎÄ¼ş½á¹¹µ÷Õû
 
 ```javascript
-â”œâ”€site          //ç¤ºä¾‹ç½‘ç«™ç›®å½•
-â”‚ â””â”€components  //ç¤ºä¾‹ç½‘ç«™ç»„ä»¶
-â”‚ â””â”€router      //è·¯ç”±é…ç½®
-â”‚ â”‚ â””â”€index.js  //è·¯ç”±é…ç½®æ–‡ä»¶
-â”‚ â””â”€views       //ç¤ºä¾‹é¡µé¢
-â”‚ â”‚ â””â”€Home.vue  //ç¤ºä¾‹ç½‘ç«™é¦–é¡µ
-â”‚ â””â”€App.vue     //é¡¹ç›®å…¥å£
-â”‚ â””â”€main.js     //å¯åŠ¨æ–‡ä»¶
-â”œâ”€src           //æºç ç›®å½•
+©À©¤site          //Ê¾ÀıÍøÕ¾Ä¿Â¼
+©¦ ©¸©¤components  //Ê¾ÀıÍøÕ¾×é¼ş
+©¦ ©¸©¤router      //Â·ÓÉÅäÖÃ
+©¦ ©¦ ©¸©¤index.js  //Â·ÓÉÅäÖÃÎÄ¼ş
+©¦ ©¸©¤views       //Ê¾ÀıÒ³Ãæ
+©¦ ©¦ ©¸©¤Home.vue  //Ê¾ÀıÍøÕ¾Ê×Ò³
+©¦ ©¸©¤App.vue     //ÏîÄ¿Èë¿Ú
+©¦ ©¸©¤main.js     //Æô¶¯ÎÄ¼ş
+©À©¤src           //Ô´ÂëÄ¿Â¼
 ```
 
-2. æ ¹ç›®å½•åˆ›å»º `vue.config.js` é…ç½®
+2. ¸ùÄ¿Â¼´´½¨ `vue.config.js` ÅäÖÃ
 
 ```javascript
 module.exports = {
@@ -48,7 +48,7 @@ module.exports = {
 };
 ```
 
-3. ç›¸å…³çš„ä¾èµ–ã€è·¯ç”±é…ç½®è¿›è¡Œè°ƒæ•´ï¼Œ`Home.vue` é¡µé¢è°ƒæ•´
+3. Ïà¹ØµÄÒÀÀµ¡¢Â·ÓÉÅäÖÃ½øĞĞµ÷Õû£¬`Home.vue` Ò³Ãæµ÷Õû
 
 ```vue
 <template>
@@ -62,13 +62,13 @@ export default {
 </script>
 ```
 
-4. é¡µé¢è®¿é—®
+4. Ò³Ãæ·ÃÎÊ
 
-![é¡µé¢è®¿é—®](site/images/vue-ui-10.png)
+![Ò³Ãæ·ÃÎÊ](site/images/vue-ui-10.png)
 
-## ç»„ä»¶å¼€å‘
+## ×é¼ş¿ª·¢
 
-1. `Button` ç»„ä»¶å¼€å‘
+1. `Button` ×é¼ş¿ª·¢
 
 ```html
 <template>
@@ -124,7 +124,7 @@ export default {
 </style>
 ```
 
-2. å®‰è£…é…ç½® `src/button/index.js`
+2. °²×°ÅäÖÃ `src/button/index.js`
 
 ```javascript
 import Button from "./src/button";
@@ -136,7 +136,7 @@ Button.install = (Vue) => {
 export default Button;
 ```
 
-3. ç»„ä»¶é›†æˆå®‰è£… `src/index.js`
+3. ×é¼ş¼¯³É°²×° `src/index.js`
 
 ```javascript
 import Button from "./button/index.js";
@@ -154,9 +154,173 @@ export default {
 };
 ```
 
-4. å…¥å£æ–‡ä»¶å¼•å…¥ `site/main.js`
+4. Èë¿ÚÎÄ¼şÒıÈë `site/main.js`
 
 ```javascript
 import VueUIDocs from "../src/index";
 Vue.use(VueUIDocs);
 ```
+
+# vue-docs
+vue-docs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> .theirs
