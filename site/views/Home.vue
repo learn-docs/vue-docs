@@ -5,14 +5,14 @@
         <img src="../images/logo.png" />
       </div>
       <div class="home--header-title">
-        VUE-DOCS
+        哪吒Jeskson
       </div>
       <div class="home--header-github" @click="handleGitbubClick">
         <img src="../images/github.svg" />
       </div>
     </div>
     <div class="home--left">
-      <div class="home--left-title">开发指南</div>
+      <div class="home--left-title">阅读指南</div>
       <router-link class="home--left-link" to="/">快速上手</router-link>
       <router-link class="home--left-link" to="/changelog"
         >更新日志
