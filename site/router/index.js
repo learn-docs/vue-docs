@@ -16,7 +16,7 @@ const routes = [
       {
         path: "/changelog",
         name: "changelog",
-        component: () => import("../../CHANGELOG.md")
+        component: () => import("../../changelog.md")
       },
       {
         path: "/start",

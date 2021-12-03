@@ -1,6 +1,6 @@
 {
-  "name": "vue-docs",
-  "version": "1.3.0",
+  "name": "Jeskson",
+  "version": "1.0.0",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -39,11 +39,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/kitorv/vue-ui-docs.git"
+    "url": "https://github.com/webVueBlog/vue-docs.git"
   },
-  "homepage": "https://kitorv.github.io/vue-ui-docs/",
+  "homepage": "https://github.com/webVueBlog/vue-docs/",
   "bugs": {
-    "url": "https://github.com/kitorv/vue-ui-docs/issues"
+    "url": "https://github.com/webVueBlog/vue-docs/issues"
   },
   "eslintConfig": {
     "root": true,
