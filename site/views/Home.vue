@@ -6,7 +6,7 @@
         <img src="../images/logo.png" />
       </div>
       <div class="home--header-title">
-        程序员哆啦A梦
+        1024bibi.com
       </div>
       <div class="home--header-github" @click="handleGitbubClick">
         <img src="../images/github.svg" />

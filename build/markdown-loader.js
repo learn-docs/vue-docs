@@ -11,7 +11,7 @@ module.exports = function(source) {
   let styleCodeList = [];
   const delimiterCodeList = [];
   const globalScript = [];
-  // 初始还MarkdownIt用于转换md文件为html
+  // 初始化MarkdownIt用于转换md文件为html
   const markdownIt = MarkdownIt({
     html: true,
     xhtmlOut: true,
@@ -19,19 +19,20 @@ module.exports = function(source) {
     highlight: function(code, language) {
       let codeHtml;
       if (language && hljs.getLanguage(language)) {
-        codeHtml = hljs.highlight(code, { language, ignoreIllegals: true }).value;
+        codeHtml = hljs.highlight(code, { language, ignoreIllegals: true })
+          .value;
       } else {
         codeHtml = markdownIt.utils.escapeHtml(code);
       }
       // 替换vue的变量分隔符 {{  }} 阻止二次变量编译错误
       const delimiterRegex = /\{\{.*?\}\}/g;
-      codeHtml = codeHtml.replace(delimiterRegex, (value) => {
+      codeHtml = codeHtml.replace(delimiterRegex, value => {
         const code = `data_${hash(value)}`;
         delimiterCodeList.push(`${code}:"${value}"`);
         return `{{${code}}}`;
       });
       return `<pre class="hljs"><code>${codeHtml}</code></pre>`;
-    },
+    }
   });
   // 解析【:::tip:::】
   markdownIt.use(MarkdownItContainer, "tip");
@@ -57,7 +58,7 @@ module.exports = function(source) {
         let { template, script, styles } = parse({
           source: content,
           compiler: VueTemplateComplier,
-          needMap: false,
+          needMap: false
         });
         styleCodeList = styleCodeList.concat(styles);
         // 将template的转为render函数
@@ -65,7 +66,7 @@ module.exports = function(source) {
         if (template && template.content) {
           const { code } = compileTemplate({
             source: template.content,
-            compiler: VueTemplateComplier,
+            compiler: VueTemplateComplier
           });
           templateCodeRender = code;
         }
@@ -99,7 +100,7 @@ module.exports = function(source) {
       }
       return `    </div>
                 </vc-snippet> `;
-    },
+    }
   });
   // 将所有转换好的代码字符串拼接成vue单组件template、script、style格式
   return `
@@ -121,6 +122,6 @@ module.exports = function(source) {
          }
        </script>
        <style lang='scss'>
-         ${Array.from(styleCodeList, (m) => m.content).join("\n")}
+         ${Array.from(styleCodeList, m => m.content).join("\n")}
        </style>`;
 };
