@@ -11,17 +11,17 @@ const routes = [
       {
         path: "/",
         name: "home-start",
-        component: () => import("../docs/start.md")
+        component: () => import(/*快速上手*/ "../docs/start.md")
       },
       {
         path: "/changelog",
         name: "changelog",
-        component: () => import("../../changelog.md")
+        component: () => import(/*更新日志*/ "../../changelog.md")
       },
       {
-        path: "/start",
+        path: "/vueapi2x",
         name: "start",
-        component: () => import("../docs/start.md")
+        component: () => import(/*vueapi2x*/ "../docs/vueapi2x.md")
       },
       {
         path: "/component/button",

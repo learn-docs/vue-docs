@@ -6,7 +6,7 @@
         <img src="../images/logo.png" />
       </div>
       <div class="home--header-title">
-        1024bibi.com
+        <a href="https://www.1024bibi.com/">1024bibi.com笔记文档</a>
       </div>
       <div class="home--header-github" @click="handleGitbubClick">
         <img src="../images/github.svg" />
@@ -21,7 +21,10 @@
       <router-link class="home--left-link" to="/changelog">
         更新日志
       </router-link>
-      <div class="home--left-title">组件</div>
+      <div class="home--left-title">Vue.jsAPI</div>
+      <router-link class="home--left-link" to="/vueapi2x">
+        2.X
+      </router-link>
       <!-- <div class="home--left-title">组件</div>
       <router-link class="home--left-link" to="/component/button">
         Button 按钮
@@ -73,6 +76,10 @@ export default {
       padding-left: 25px;
       overflow: hidden;
       cursor: pointer;
+
+      &:hover {
+        transform: scale(1.2);
+      }
 
       > img {
         height: 32px;
