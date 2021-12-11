@@ -34,7 +34,7 @@ const routes = [
 
 const router = new VueRouter({
   mode: "hash",
-  base: process.env.NODE_ENV !== "production" ? "/" : "/vue-ui-docs",
+  base: process.env.NODE_ENV !== "production" ? "/" : "/",
   routes
 });
 

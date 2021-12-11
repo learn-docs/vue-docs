@@ -7,6 +7,7 @@
 ## 1.0.0
 
 - 🐟 添加vueapi2x
+- 🚩 解析Markdown文件转成vue组件 使用markdown-loader.js
 
 ## 0.0.0
 
