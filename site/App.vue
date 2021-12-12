@@ -68,18 +68,20 @@ ol {
 }
 
 a {
-  color: #333333;
+  // color: #333333;
   text-decoration: none;
   background-color: transparent;
   outline: none;
   transition: color 0.3s;
   cursor: pointer;
+  color: #2440b3;
 }
 
 a:active,
 a:hover {
   text-decoration: none;
   outline: 0;
+  color: #315efb;
 }
 
 .vc-snippet-doc {
@@ -193,7 +195,7 @@ a:hover {
 
   a:not(.n-link) {
     text-decoration: none;
-    color: #333333;
+    // color: #333333;
   }
 
   h1,
@@ -220,6 +222,7 @@ a:hover {
   display: block;
   font-size: 14px;
   padding: 8px 16px;
+  margin: 10px 0px;
   line-height: 1.5;
   border-radius: 5px;
 }
