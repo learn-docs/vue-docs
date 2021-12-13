@@ -28,6 +28,10 @@
       <router-link class="home--left-link" to="/cookbook">
         cookbook
       </router-link>
+      <div class="home--left-title">Vue Cli</div>
+      <router-link class="home--left-link" to="/vuecli">
+        打造属于自己的项目脚手架工具
+      </router-link>
       <!-- <div class="home--left-title">组件</div>
       <router-link class="home--left-link" to="/component/button">
         Button 按钮

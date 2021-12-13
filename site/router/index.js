@@ -29,6 +29,11 @@ const routes = [
         component: () => import(/*cookbook*/ "../docs/cookbook.md")
       },
       {
+        path: "/vuecli",
+        name: "vuecli",
+        component: () => import(/*vuecli*/ "../docs/vuecli.md")
+      },
+      {
         path: "/component/button",
         name: "component-button",
         component: () => import("../../src/button/index.md")
