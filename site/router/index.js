@@ -20,8 +20,13 @@ const routes = [
       },
       {
         path: "/vueapi2x",
-        name: "start",
+        name: "vueapi2x",
         component: () => import(/*vueapi2x*/ "../docs/vueapi2x.md")
+      },
+      {
+        path: "/cookbook",
+        name: "cookbook",
+        component: () => import(/*cookbook*/ "../docs/cookbook.md")
       },
       {
         path: "/component/button",

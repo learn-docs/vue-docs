@@ -21,9 +21,12 @@
       <router-link class="home--left-link" to="/changelog">
         更新日志
       </router-link>
-      <div class="home--left-title">Vue.jsAPI</div>
+      <div class="home--left-title">Vue.js</div>
       <router-link class="home--left-link" to="/vueapi2x">
-        2.X
+        2.XAPI
+      </router-link>
+      <router-link class="home--left-link" to="/cookbook">
+        cookbook
       </router-link>
       <!-- <div class="home--left-title">组件</div>
       <router-link class="home--left-link" to="/component/button">
