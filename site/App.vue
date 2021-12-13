@@ -225,7 +225,7 @@ a:hover {
   margin: 10px 0px;
   line-height: 1.5;
   border-radius: 5px;
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 
 .hljs-comment {

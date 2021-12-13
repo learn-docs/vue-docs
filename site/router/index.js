@@ -14,9 +14,9 @@ const routes = [
         component: () => import(/*快速上手*/ "../docs/start.md")
       },
       {
-        path: "/changelog",
-        name: "changelog",
-        component: () => import(/*更新日志*/ "../../changelog.md")
+        path: "/CHANGELOG",
+        name: "CHANGELOG",
+        component: () => import(/*更新日志*/ "../../CHANGELOG.md")
       },
       {
         path: "/vueapi2x",

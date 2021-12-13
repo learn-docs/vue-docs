@@ -18,7 +18,7 @@
       <router-link class="home--left-link" to="/">
         快速上手
       </router-link>
-      <router-link class="home--left-link" to="/changelog">
+      <router-link class="home--left-link" to="/CHANGELOG">
         更新日志
       </router-link>
       <div class="home--left-title">Vue.js</div>
