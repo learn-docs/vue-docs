@@ -10,7 +10,9 @@
   "main": "lib/vue-ui-docs.common.js",
   "dependencies": {
     "core-js": "^3.6.4",
+    "element-ui": "^2.15.6",
     "vue": "^2.6.11",
+    "vue-i18n": "^8.26.7",
     "vue-router": "^3.1.6"
   },
   "devDependencies": {

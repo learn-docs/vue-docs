@@ -6,7 +6,10 @@
         <img src="../images/logo.png" />
       </div>
       <div class="home--header-title">
-        <a href="https://www.1024bibi.com/">1024bibi.com笔记文档</a>
+        <a href="https://www.1024bibi.com/">笔记文档</a>
+      </div>
+      <div class="home--header-lang">
+        <lang-change />
       </div>
       <div class="home--header-github" @click="handleGitbubClick">
         <img src="../images/github.svg" />
@@ -49,7 +52,11 @@
 </template>
 
 <script>
+import LangChange from "../components/LangChange.vue";
 export default {
+  components: {
+    LangChange
+  },
   data() {
     return {};
   },
@@ -78,6 +85,8 @@ export default {
     box-sizing: border-box;
     transition: all 0.3s ease;
     box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-content: center;
     .home--header-logo {
       float: left;
       padding-left: 25px;
@@ -102,6 +111,9 @@ export default {
       display: inline-block;
       padding-left: 12px;
       font-weight: 700;
+    }
+    .home--header-lang {
+      padding-left: 12px;
     }
     .home--header-github {
       position: absolute;
