@@ -35,6 +35,10 @@
       <router-link class="home--left-link" to="/vuecli">
         打造属于自己的项目脚手架工具
       </router-link>
+      <div class="home--left-title">Vuex</div>
+      <router-link class="home--left-link" to="/vuex-module-decorators">
+        vuex-module-decorators
+      </router-link>
       <!-- <div class="home--left-title">组件</div>
       <router-link class="home--left-link" to="/component/button">
         Button 按钮
