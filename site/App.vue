@@ -66,6 +66,7 @@ body {
 ul,
 ol {
   // list-style: none;
+  padding-left: 20px;
 }
 
 a {
