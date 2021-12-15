@@ -501,8 +501,193 @@ spinner.succeed();
 
 然后通过 `chalk` 来打印信息加上样式，比如成功信息为绿色，失败信息为红色，这样子会让用户更加容易分辨，同时也让终端的显示更加的好看。
 
+`Usage`
+
+```js
+const ora = require('ora')
+
+const spinner = ora('Loading unicorns').start();
+
+setTimeout(() => {
+  spinner.color = 'yellow';
+  spinner.text = 'Loading rainbows';
+}, 1000);
+```
+
+```js
+// index.js
+const program = require('commander')
+const download = require('download-git-repo')
+const handlebars = require('handlebars')
+const inquirer = require('inquirer')
+const fs = require('fs')
+const ora = require('ora')
+
+program
+  .command('init <template> <project>')
+  .description('初始化项目模板')
+  // .option('-e, --exec_mode [mode]', 'Which exec mode to use', 'fast')
+  .action(function(templateName, projectName){
+    // 下载之前做 loading 提示
+    const spinner = ora('正在下载模板...').start();
+
+    // console.log(templateName, projectName)
+    // 根据模板名下载对应的模板到本地
+    console.log(templates[templateName])
+    // itcast init da-a abc 
+    const { downloadUrl } = templates[templateName]
+    download(downloadUrl, projectName, { clone: true }, (err) => {
+      if (err) {
+        spinner.fail() // 下载失败提示
+        return
+        // return console.log('下载失败')
+      }
+      spinner.succeed() // 下载成功提示
+      // 把项目下的 package.json 文件读取出来
+      // 使用向导的方式采集用户输入的值 
+      // 使用模板引擎把用户输入的数据解析到 package.json 文件中
+      // 解析完毕后，把解析之后的结果重新写入 package.json 文件中
+      inquirer.prompt([{
+        type: 'input',
+        name: 'name',
+        message: '请输入项目名称'
+      },{
+        type: 'input',
+        name: 'description',
+        message: '请输入项目简介'
+      },{
+        type: 'input',
+        name: 'author',
+        message: '请输入作者名称'
+      }]).then((answers) => {
+        console.log(answers.author)
+
+        // 把采集到的用户输入的数据解析替换到package.json文件中
+        const packagePath = `${projectName}/package.json`
+        const packageContent = fs.readFileSync(packagePath, 'utf8') 
+        // handlebars进行解析
+        const packageResult = handlebars.compile(packageContent)(answers)
+        fs.writeFileSync(packagePath, packageResult)
+        console.log(packageResult)
+      })
+
+    })
+  })
+
+...
+```
+
+## 使用`chalk`和`logSymbols`增加文本样式
+
+```js
+npm install chalk
+```
+
+```js
+import chalk from 'chalk';
+
+console.log(chalk.blue('Hello world!'));
+```
 
 
+```js
+// index.js
+const program = require('commander')
+const download = require('download-git-repo')
+const handlebars = require('handlebars')
+const inquirer = require('inquirer')
+const fs = require('fs')
+const ora = require('ora')
+const chalk = require('chalk')
+consot logSymbols = require('log-symbols')
 
+program
+  .command('init <template> <project>')
+  .description('初始化项目模板')
+  // .option('-e, --exec_mode [mode]', 'Which exec mode to use', 'fast')
+  .action(function(templateName, projectName){
+    // 下载之前做 loading 提示
+    const spinner = ora('正在下载模板...').start();
 
+    // console.log(templateName, projectName)
+    // 根据模板名下载对应的模板到本地
+    console.log(templates[templateName])
+    // itcast init da-a abc 
+    const { downloadUrl } = templates[templateName]
+    download(downloadUrl, projectName, { clone: true }, (err) => {
+      if (err) {
+        spinner.fail() // 下载失败提示
+        console.log(logSymbols.error, chalk.red('初始化模板失败'))
+        return
+        // return console.log('下载失败')
+      }
+      spinner.succeed() // 下载成功提示
+      // 把项目下的 package.json 文件读取出来
+      // 使用向导的方式采集用户输入的值 
+      // 使用模板引擎把用户输入的数据解析到 package.json 文件中
+      // 解析完毕后，把解析之后的结果重新写入 package.json 文件中
+      inquirer.prompt([{
+        type: 'input',
+        name: 'name',
+        message: '请输入项目名称'
+      },{
+        type: 'input',
+        name: 'description',
+        message: '请输入项目简介'
+      },{
+        type: 'input',
+        name: 'author',
+        message: '请输入作者名称'
+      }]).then((answers) => {
+        console.log(answers.author)
 
+        // 把采集到的用户输入的数据解析替换到package.json文件中
+        const packagePath = `${projectName}/package.json`
+        const packageContent = fs.readFileSync(packagePath, 'utf8') 
+        // handlebars进行解析
+        const packageResult = handlebars.compile(packageContent)(answers)
+        fs.writeFileSync(packagePath, packageResult)
+        console.log(packageResult)
+
+        // 符号+文本
+        console.log(logSymbols.successs, chalk.yellow('初始化模板成功'))
+      })
+
+    })
+  })
+
+...
+```
+
+`log-symbols`库
+
+`install` - `npm install log-symbols`
+
+```js
+const logSymbols = require('log-symbols')
+
+console.log(logSymbols.success, 'Finished successfully!');
+```
+
+## `npm`发包
+
+```js
+npm install --global xxx
+```
+
+`www.npmjs.com`
+
+1. 打开`npmjs.com`官网
+2. 注册一个`npm`账号
+3. 在`npm`检索是否有重名的包名
+4. 在`package.json`中的`name`修改为发布到`npm`上的包名
+
+:::tip
+和本地项目名称无关
+:::
+
+5. 打开控制台，执行`npm login`，在控制台登陆`npm`
+6. 登录成功以后，在项目下执行`npm publish`发布
+7. 测试
+
+`npm install --global xxx`
