@@ -87,7 +87,7 @@ a:hover {
 .vc-snippet-doc {
   min-width: 600px;
   color: #3f536e;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.5;
 
   > .tip,
@@ -95,7 +95,7 @@ a:hover {
     padding: 12px 16px;
     border-radius: 4px;
     margin: 20px 0;
-    line-height: 1.3;
+    line-height: 2;
   }
 
   > .tip {
@@ -127,9 +127,9 @@ a:hover {
   }
 
   > p {
-    line-height: 1.8;
+    line-height: 2.3;
     color: #3f536e;
-    font-size: 14px;
+    font-size: 16px;
     margin-bottom: 5px;
   }
 
@@ -204,6 +204,8 @@ a:hover {
   h4,
   h5,
   h6 {
+    padding-bottom: 1.3rem;
+    border-bottom: 1px solid #eaecef;
     a.n-snippent--markdown-it-anchor {
       opacity: 0;
     }
@@ -217,15 +219,22 @@ a:hover {
 
 .hljs > code {
   border: 1px solid #f0f2f7;
-  background: #f9f9f9;
-  font-family: Consolas, Menlo, Courier, monospace;
+  // background: #f9f9f9;
+  // font-family: Consolas, Menlo, Courier, monospace;
+  font-family: Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace;
   display: block;
-  font-size: 14px;
-  padding: 8px 16px;
-  margin: 10px 0px;
+  font-size: 1em;
+  padding: 1.25rem 1.5rem;
+  margin: 0.85rem 0;
   line-height: 1.5;
-  border-radius: 5px;
+  border-radius: 6px;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
   overflow-x: auto;
+  background-color: #282c34;
+  color: #ccc;
 }
 
 .hljs-comment {

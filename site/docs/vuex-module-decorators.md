@@ -702,17 +702,249 @@ export default {
 变异函数不能是异步函数。也不要将它们定义为箭头➡️功能，因为我们需要在运行时重新绑定他们。
 :::
 
+## `@Action`
 
+所有装饰的函数`@Action`都转换为 `vuex` 动作。
 
+例如这个代码 -
+```js
+import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
+import { get } from 'request'
 
+@Module
+export default class Vehicle extends VuexModule {
+  wheels = 2
 
+  @Mutation
+  addWheel(n: number) {
+    this.wheels = this.wheels + n
+  }
 
+  @Action
+  async fetchNewWheels(wheelStore: string) {
+    const wheels = await get(wheelStore)
+    this.context.commit('addWheel', wheels)
+  }
+}
+```
 
+相当于这个——
 
+```js
+const request = require('request')
+export default {
+  state: {
+    wheels: 2
+  },
+  mutations: {
+    addWheel: (state, payload) => {
+      state.wheels = state.wheels + payload
+    }
+  },
+  actions: {
+    fetchNewWheels: async (context, payload) => {
+      const wheels = await request.get(payload)
+      context.commit('addWheel', wheels)
+    }
+  }
+}
+```
 
+:::tip
+笔记
 
+一旦用`@Action`函数装饰，将调用`this` 具有以下形状 -`{...[all fields of state], context}` 动作有效负载作为参数出现。因此，要从动作的主体内手动提交突变，只需调用`this.context.commit('mutationName', mutPayload)`
+:::
 
+:::warning
+🚨️️ 警告
 
+如果您在 `action` 中执行长时间运行的任务，建议将其定义为异步函数。但即使你不这样做，这个库也会将你的函数包装成一个`Promise`并等待它。
 
+如果您希望某事实际同步发生，请将其`Mutation`改为
 
+也不要将它们定义为箭头➡️功能，因为我们需要在运行时重新绑定他们。
+:::
+
+## `@MutationAction` 
+
+如果您了解`Actions`和`Mutations` 的工作原理，您可能对某些功能有以下要求 -
+
+先做一个异步动作
+
+然后通过突变将结果值提交到store
+
+这就是 `@MutationAction`出现的地方。
+
+这是一个基本的例子
+
+```js
+import {VuexModule, Module, MutationAction} from 'vuex-module-decorators' 
+
+@Module
+class TypicodeModule extends VuexModule {
+  posts: Post[] = [] 
+  users: User[] = [] 
+
+  @MutationAction 
+  async function updatePosts() {
+    const posts = await axios.get('https://jsonplaceholder.typicode.com/posts')
+
+    return { posts }
+  }
+}
+```
+
+这被转换成这样的东西
+
+```js
+const typicodeModule = {
+  state: {
+    posts: [],
+    users: []
+  },
+  mutations: {
+    updatePosts: function (state, posts) {
+      state.posts = posts
+    }
+  },
+  actions: {
+    updatePosts: async function (context) {
+      const posts = await axios.get('https://jsonplaceholder.typicode.com/posts')
+      context.commit('updatePosts', posts)
+    }
+  }
+}
+```
+
+:::tip
+笔记
+
+请注意，如果`S`表示`state`的类型，那么从`MutationAction`函数返回的对象 必须是`Partial<S>` 返回值中存在的键（例如，`here posts`）被替换到存储中。
+:::
+
+:::tip
+笔记
+
+当`MutationAction`函数返回时`undefined`，`MutationAction`不会调用的变异部分， 状态保持不变。
+:::
+
+## 命名空间模块
+
+如果你打算以命名空间的方式使用你的模块，那么你需要在`@Module`装饰器中指定。
+
+```js
+@Module({ namespaced: true, name: 'mm' })
+class MyModule extends VuexModule {
+  wheels = 2
+
+  @Mutation
+  incrWheels(extra: number) {
+    this.wheels += extra
+  }
+
+  get axles() {
+    return this.wheels / 2
+  }
+}
+
+const store = new Vuex.Store({
+  modules: {
+    mm: MyModule
+  }
+})
+```
+
+:::warning
+笔记
+
+`name`装饰器中的字段应与您在创建`store`时将分配给模块的实际名称相匹配。
+
+手动保持这两个相同并不是很优雅，但这很重要。我们必须将`this.store.dispatch('action')` 调用转换为`this.store.dispatch('name/action')`，并且我们需要 `name`在装饰器中正确才能使其工作
+:::
+
+## 在命名空间模块中注册全局操作
+
+为了**全局注册命名空间模块的操作**，您可以`root: true`向`@Action`和`@MutationAction`装饰方法添加参数。
+
+```js
+@Module({ namespaced: true, name: 'mm' })
+class MyModule extends VuexModule {
+  wheels = 2
+
+  @Mutation
+  setWheels(wheels: number) {
+    this.wheels = wheels
+  }
+  
+  @Action({ root: true, commit: 'setWheels' })
+  clear() {
+    return 0
+  }
+
+  get axles() {
+    return this.wheels / 2
+  }
+}
+
+const store = new Vuex.Store({
+  modules: {
+    mm: MyModule
+  }
+})
+```
+
+这样虽然在命名空间模块中，但将通过调度调用`@Action clear of` 。同样的事情只需传递给装饰器选项即可。`MyModuleclearmm@MutationAction{ root: true }`
+
+:::warning
+笔记
+
+当全局注册一个动作时，它不能被命名空间的名称调用。例如，这意味着不能通过调度调用操作`mm/clear！`
+:::
+
+## 动态模块
+
+模块可以简单地通过向`@Module`装饰器传递一些属性来动态注册，但该过程的一个重要部分是，我们首先创建`store`，然后将`store`传递给模块。
+
+### 第 1 步：创建store
+```js
+// @/store/index.ts
+import Vuex from 'vuex'
+
+const store = new Vuex.Store({
+  /*
+  Ideally if all your modules are dynamic
+  then your store is registered initially
+  as a completely empty object
+  */
+})
+```
+
+### 步骤 2：创建动态模块
+```js
+// @/store/modules/MyModule.ts
+import store from '@/store'
+import {Module, VuexModule} from 'vuex-module-decorators'
+
+@Module({dynamic: true, store, name: 'mm'})
+export default class MyModule extends VuexModule {
+  /*
+  Your module definition as usual
+  */
+}
+```
+
+:::tip
+笔记
+
+截至目前，我们不支持动态 + 嵌套模块。
+:::
+
+:::warning
+重要事项⛔️
+
+确保您的导入/要求以在创建模块类之前执行存储定义的方式排序。
+
+store 的存在很重要，并且传递给 @Module装饰器以便模块动态注册
+:::
 
