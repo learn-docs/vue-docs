@@ -39,6 +39,11 @@ const routes = [
         component: () => import(/*vuecli*/ "../docs/vuex-module-decorators.md")
       },
       {
+        path: "/vue-property-decorator",
+        name: "vue-property-decorator",
+        component: () => import(/*vuecli*/ "../docs/vue-property-decorator.md")
+      },
+      {
         path: "/component/button",
         name: "component-button",
         component: () => import("../../src/button/index.md")

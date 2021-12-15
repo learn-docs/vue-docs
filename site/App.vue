@@ -58,13 +58,14 @@ html,
 body {
   width: 100%;
   height: 100%;
-  color: #333333;
+  // color: #333333;
   font-size: 12px;
+  background-color: #f9f9f9;
 }
 
 ul,
 ol {
-  list-style: none;
+  // list-style: none;
 }
 
 a {
@@ -88,7 +89,7 @@ a:hover {
   min-width: 600px;
   color: #3f536e;
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 2;
 
   > .tip,
   > .warning {
@@ -238,6 +239,6 @@ a:hover {
 }
 
 .hljs-comment {
-  color: #608b4e;
+  color: #608b4e !important;
 }
 </style>

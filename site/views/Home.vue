@@ -31,6 +31,9 @@
       <router-link class="home--left-link" to="/cookbook">
         cookbook
       </router-link>
+      <router-link class="home--left-link" to="/vue-property-decorator">
+        vue-property-decorator
+      </router-link>
       <div class="home--left-title">Vue Cli</div>
       <router-link class="home--left-link" to="/vuecli">
         打造属于自己的项目脚手架工具
@@ -85,12 +88,13 @@ export default {
     width: 100%;
     height: 64px;
     line-height: 64px;
-    background-color: #fff;
+    // background-color: #fff;
     box-sizing: border-box;
     transition: all 0.3s ease;
     box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.08);
     display: flex;
     align-content: center;
+    background-color: #f9f9f9 !important;
     .home--header-logo {
       float: left;
       padding-left: 25px;
@@ -151,8 +155,9 @@ export default {
     font-size: 14px;
     margin: 30px 0;
     color: #3f536e;
-    background: #fff;
+    // background: #fff;
     border-right: 1px solid #ececec;
+    background-color: #f9f9f9 !important;
     .home--left-title {
       font-size: 16px;
       color: #333;
