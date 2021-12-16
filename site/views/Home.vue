@@ -8,9 +8,9 @@
       <div class="home--header-title">
         <a href="https://www.1024bibi.com/">笔记文档</a>
       </div>
-      <div class="home--header-lang">
+      <!-- <div class="home--header-lang">
         <lang-change />
-      </div>
+      </div> -->
       <div class="home--header-github" @click="handleGitbubClick">
         <img src="../images/github.svg" />
       </div>
@@ -42,6 +42,13 @@
       <router-link class="home--left-link" to="/vuex-module-decorators">
         vuex-module-decorators
       </router-link>
+      <div class="home--left-title">正则表达式</div>
+      <router-link
+        class="home--left-link"
+        to="/javascript-regular-expressions-mini-book"
+      >
+        JavaScript正则表达式迷你书
+      </router-link>
       <!-- <div class="home--left-title">组件</div>
       <router-link class="home--left-link" to="/component/button">
         Button 按钮
@@ -59,10 +66,10 @@
 </template>
 
 <script>
-import LangChange from "../components/LangChange.vue";
+// import LangChange from "../components/LangChange.vue";
 export default {
   components: {
-    LangChange
+    // LangChange
   },
   data() {
     return {};

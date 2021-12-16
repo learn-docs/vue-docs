@@ -36,12 +36,22 @@ const routes = [
       {
         path: "/vuex-module-decorators",
         name: "vuex-module-decorators",
-        component: () => import(/*vuecli*/ "../docs/vuex-module-decorators.md")
+        component: () =>
+          import(/*vuex-module-decorators*/ "../docs/vuex-module-decorators.md")
       },
       {
         path: "/vue-property-decorator",
         name: "vue-property-decorator",
-        component: () => import(/*vuecli*/ "../docs/vue-property-decorator.md")
+        component: () =>
+          import(/*vue-property-decorator*/ "../docs/vue-property-decorator.md")
+      },
+      {
+        path: "/javascript-regular-expressions-mini-book",
+        name: "javascript-regular-expressions-mini-book",
+        component: () =>
+          import(
+            /*javascript-regular-expressions-mini-book*/ "../docs/javascript-regular-expressions-mini-book.md"
+          )
       },
       {
         path: "/component/button",
