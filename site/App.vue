@@ -63,6 +63,12 @@ body {
   background-color: #f9f9f9;
 }
 
+blockquote {
+  margin: 1em 0;
+  padding-left: 20px;
+  border-left: 4px solid #42b983;
+}
+
 ul,
 ol {
   // list-style: none;
