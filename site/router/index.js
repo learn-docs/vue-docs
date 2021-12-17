@@ -59,6 +59,29 @@ const routes = [
         component: () => import(/*vuex*/ "../docs/vuex.md")
       },
       {
+        path: "/ECMAScript-introduction-to-6",
+        name: "ECMAScript-introduction-to-6",
+        component: () =>
+          import(
+            /*ECMAScript-introduction-to-6*/ "../views/ECMAScript-introduction-to-6.vue"
+          ),
+        children: [
+          {
+            path: "/ECMAScript-introduction-to-6",
+            name: "ECMAScript-introduction-to-6-md",
+            component: () =>
+              import(
+                /*ECMAScript-introduction-to-6-md*/ "../docs/ECMAScript-introduction-to-6.md"
+              )
+          },
+          {
+            path: "/let-const",
+            name: "let-const",
+            component: () => import(/*let-const*/ "../docs/let-const.md")
+          }
+        ]
+      },
+      {
         path: "/component/button",
         name: "component-button",
         component: () => import("../../src/button/index.md")

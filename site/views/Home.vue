@@ -52,6 +52,10 @@
       >
         JavaScript正则表达式迷你书
       </router-link>
+      <div class="home--left-title">JavaScript</div>
+      <router-link class="home--left-link" to="/ECMAScript-introduction-to-6">
+        ECMAScript 6 入门
+      </router-link>
       <!-- <div class="home--left-title">组件</div>
       <router-link class="home--left-link" to="/component/button">
         Button 按钮
