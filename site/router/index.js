@@ -54,6 +54,11 @@ const routes = [
           )
       },
       {
+        path: "/vuex",
+        name: "vuex",
+        component: () => import(/*vuex*/ "../docs/vuex.md")
+      },
+      {
         path: "/component/button",
         name: "component-button",
         component: () => import("../../src/button/index.md")

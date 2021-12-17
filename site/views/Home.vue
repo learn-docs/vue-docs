@@ -42,6 +42,9 @@
       <router-link class="home--left-link" to="/vuex-module-decorators">
         vuex-module-decorators
       </router-link>
+      <router-link class="home--left-link" to="/vuex">
+        vuex
+      </router-link>
       <div class="home--left-title">正则表达式</div>
       <router-link
         class="home--left-link"
