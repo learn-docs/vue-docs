@@ -51,7 +51,7 @@ new Vue({
 
 `Vuex` 是专门为 `Vue.js` 设计的状态管理库，以利用 `Vue.js` 的细粒度数据响应机制来进行高效的状态更新。
 
-<img src="../../assets/vuex.png" style="display: flex; margin: auto; width: 60%;"/>
+<img src="../../assets/vuex.png" style="display: flex; margin: auto; width: 80%;"/>
 
 ### 什么情况下我应该使用 Vuex？
 
