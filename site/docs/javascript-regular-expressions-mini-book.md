@@ -1,4 +1,6 @@
-# JavaScript 正则表达式迷你书 javascript-regular-expressions-mini-book
+# JavaScript 正则表达式迷你书 
+
+`javascript-regular-expressions-mini-book`
 
 笔记：感谢这本📕的作者
 

@@ -59,6 +59,11 @@ const routes = [
         component: () => import(/*vuex*/ "../docs/vuex.md")
       },
       {
+        path: "/UEditor-Docs",
+        name: "UEditor-Docs",
+        component: () => import(/*vuecli*/ "../docs/UEditor-Docs.md")
+      },
+      {
         path: "/ECMAScript-introduction-to-6",
         name: "ECMAScript-introduction-to-6",
         component: () =>

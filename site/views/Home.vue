@@ -45,16 +45,20 @@
       <router-link class="home--left-link" to="/vuex">
         vuex
       </router-link>
+      <div class="home--left-title">UEditor</div>
+      <router-link class="home--left-link" to="/UEditor-Docs">
+        UEditor-Docs
+      </router-link>
+      <div class="home--left-title">JavaScript</div>
+      <router-link class="home--left-link" to="/ECMAScript-introduction-to-6">
+        ECMAScript 6 入门
+      </router-link>
       <div class="home--left-title">正则表达式</div>
       <router-link
         class="home--left-link"
         to="/javascript-regular-expressions-mini-book"
       >
         JavaScript正则表达式迷你书
-      </router-link>
-      <div class="home--left-title">JavaScript</div>
-      <router-link class="home--left-link" to="/ECMAScript-introduction-to-6">
-        ECMAScript 6 入门
       </router-link>
       <!-- <div class="home--left-title">组件</div>
       <router-link class="home--left-link" to="/component/button">
@@ -178,7 +182,7 @@ export default {
       line-height: 40px;
       height: 40px;
       margin: 0;
-      padding: 4px 25px;
+      padding: 4px 15px;
       text-decoration: none;
       display: block;
       position: relative;
@@ -191,7 +195,7 @@ export default {
       line-height: 40px;
       height: 40px;
       margin: 0;
-      padding: 4px 25px;
+      padding: 4px 15px;
       text-decoration: none;
       display: block;
       position: relative;
