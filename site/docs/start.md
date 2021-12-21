@@ -1,5 +1,7 @@
 # 快速上手
 
+此网站仅仅个人笔记学习记录，不适合本人之外使用，🙅‍
+
 ## Project setup
 
 With [yarn](https://yarnpkg.com/lang/en/) or [npm](https://www.npmjs.com/get-npm)
