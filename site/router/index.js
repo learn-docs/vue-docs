@@ -64,6 +64,14 @@ const routes = [
         component: () => import(/*vuecli*/ "../docs/UEditor-Docs.md")
       },
       {
+        path: "/VSCode-extension-recommended",
+        name: "VSCode-extension-recommended",
+        component: () =>
+          import(
+            /*VSCode-extension-recommended*/ "../docs/VSCode-extension-recommended.md"
+          )
+      },
+      {
         path: "/ECMAScript-introduction-to-6",
         name: "ECMAScript-introduction-to-6",
         component: () =>

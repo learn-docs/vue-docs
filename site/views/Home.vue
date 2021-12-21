@@ -53,6 +53,10 @@
       <router-link class="home--left-link" to="/ECMAScript-introduction-to-6">
         ECMAScript 6 入门
       </router-link>
+      <div class="home--left-title">VSCode</div>
+      <router-link class="home--left-link" to="/VSCode-extension-recommended">
+        VSCode拓展推荐
+      </router-link>
       <div class="home--left-title">正则表达式</div>
       <router-link
         class="home--left-link"
