@@ -90,7 +90,7 @@ const routes = [
           {
             path: "/let-const",
             name: "let-const",
-            component: () => import(/*let-const*/ "../docs/let-const.md")
+            component: () => import(/*let-const*/ "../docs/es6/let-const.md")
           }
         ]
       },
