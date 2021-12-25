@@ -41,6 +41,86 @@ console.log(bar); // 报错ReferenceError
 let bar = 2;
 ```
 
+暂时性死区
+
+只要块级作用域内存在let命令
+
+```js
+var tmp = 123;
+
+if (true) {
+  tmp = 'abc'; // ReferenceError
+  let tmp;
+}
+```
+
+“暂时性死区”（temporal dead zone，简称 TDZ）
+
+```js
+if (true) {
+  // TDZ开始
+  tmp = 'abc'; // ReferenceError
+  console.log(tmp); // ReferenceError
+
+  let tmp; // TDZ结束
+  console.log(tmp); // undefined
+
+  tmp = 123;
+  console.log(tmp); // 123
+}
+```
+
+“暂时性死区”意味着typeof不再是一个百分之百安全的操作。
+
+```js
+typeof x; // ReferenceError
+let x;
+```
+
+变量x使用let命令声明，所以在声明之前，都属于x的“死区”
+
+```js
+typeof undeclared_variable // "undefined"
+```
+
+在没有let之前，typeof运算符是百分之百安全的
+
+变量一定要在声明之后使用，否则就报错。
+
+有些“死区”比较隐蔽
+
+```js
+function bar(x = y, y = 2) {
+  return [x, y];
+}
+
+bar(); // 报错
+```
+
+此时y还没有声明，属于“死区”
+
+此时x已经声明
+
+```js
+function bar(x = 2, y = x) {
+  return [x, y];
+}
+bar(); // [2, 2]
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
