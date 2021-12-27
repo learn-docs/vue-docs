@@ -25,4 +25,8 @@ git config --global --unset https.proxy
 env GIT_SSL_NO_VERIFY=true
 ```
 
+```js
+GET_SSL_NO_VERIFY=false
+```
+
 
