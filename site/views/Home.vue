@@ -64,6 +64,10 @@
       >
         JavaScript正则表达式迷你书
       </router-link>
+      <div class="home--left-title">错题集</div>
+      <router-link class="home--left-link" to="/problem-solving">
+        问题解答
+      </router-link>
       <!-- <div class="home--left-title">组件</div>
       <router-link class="home--left-link" to="/component/button">
         Button 按钮
