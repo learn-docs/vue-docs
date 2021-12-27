@@ -10,8 +10,19 @@ git config --global --unset http.proxy
 git config --global --unset https.proxy
 ```
 
+2. git错误：`OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443`
 
+取消代理
 
+```js
+git config --global --unset http.proxy
+git config --global --unset https.proxy
+```
 
+取消SSL校验
+
+```js
+env GIT_SSL_NO_VERIFY=true
+```
 
 
