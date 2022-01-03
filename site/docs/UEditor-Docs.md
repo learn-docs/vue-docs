@@ -2,6 +2,16 @@
 
 UEditor文档📖 [http://fex.baidu.com/ueditor/#start-start](http://fex.baidu.com/ueditor/#start-start)
 
+重要安全通告：
+- commons-fileupload-1.3.1.jar 存在漏洞可能会导致 ddos，源代码中已经修改，使用老版本的用户，强烈推荐升级 commons-fileupload.jar 至最新版本。（2018-04-09）.
+- UEditor 所提供的所有后端代码都仅为 DEMO 作用，切不可直接使用到生产环境中，目前已知 php 的代码会存在 ssrf 的安全漏洞。修复方式：使用最新的 Uploader.class code 
+
+下载编辑器
+
+- git clone 仓库
+- npm install 安装依赖（如果没有安装 grunt , 请先在全局安装 grunt）
+- 在终端执行 grunt default
+
 创建demo文件📃
 
 ```html
@@ -609,4 +619,152 @@ removeFormatAttributes [默认值：'class,style,lang,width,height,align,hspace,
 `webAppKey {String} //webAppKey `百度应用的APIkey，每个站长必须首先去百度官网注册一个key后方能正常使用app功能，注册介绍，`http://app.baidu.com/static/cms/getapikey.html`
 
 `allowDivTransToP {Boolean} `默认会将外部进入的html数据中的Div标签转换成P标签，外部进入的数据包括粘贴和调用setContent接口进入编辑器的数据。如果设置成false将不在做这个转换。
+
+目录说明
+
+部署包目录说明
+
+- dialogs: 弹出对话框对应的资源和JS文件
+- lang: 编辑器国际化显示的文件
+- php或jsp或asp或net: 涉及到服务器端操作的后台文件
+- themes: 样式图片和样式文件
+- third-party: 第三方插件(包括代码高亮，源码编辑等组件）
+- ueditor.all.js: 开发版代码合并的结果,目录下所有文件的打包文件
+- ueditor.all.min.js: ueditor.all.js文件的压缩版，建议在正式部署时采用
+- ueditor.config.js: 编辑器的配置文件，建议和编辑器实例化页面置于同一目录
+- ueditor.parse.js: 编辑的内容显示页面引用，会自动加载表格、列表、代码高亮等样式,具体看内容展示文档
+- ueditor.parse.min.js: ueditor.parse.js文件的压缩版，建议在内容展示页正式部署时采用
+
+源码包目录说明
+
+源码包解压后的文件目录结构如下所示
+
+源码包部分目录和文件与部署包名称一致,用途也会是一致,具体说明如下:
+
+- `_doc`: 部分markdown格式的文档
+- `_example`: ueditor的使用例子
+- `_parse`: ueditor.parse.js的源码,parse的用途具体看内容展示文档
+- `_src`: ueditor.all.js的源码,打包方法看grunt打包文档
+    - `_src\core`: ueditor核心代码
+    - _`src\plugins`: 插件文件
+    - `_src\ui`: ui相关文件
+    - `_src\adapter`: 桥接层文件,对接ueditor核心和ui代码
+- `php`: php后台文件的目录
+    - `php\config.json`: 后端配置文件,所有前后端相关配置项,都放在这里
+    - `php\controller.php`: 接收所有请求的接口文件,通过它判断action参数,分发具体任务给其他php文件
+    - `php\action_crawler`: 撞去远程文件的代码,转存文件使用
+    - `php\action_upload`: 上传图片、附件、视频的处理代码
+    - `php\action_list`: 列出在线的图片或者是附件
+    - `php\Upload.class.php`: 上传文件使用的类
+- `jsp`: jsp后台文件的目录
+    - `jsp\config.json`: 后端配置文件,所有前后端相关配置项,都放在这里
+    - `jsp\controoler.jsp`: 接收所有请求的接口文件
+    - `jsp\lib`: 所有用到的jar包,其中的ueditor-*.jar包是ueditor所有后台相关处理逻辑的工具
+    - `jsp\src`: lib里面的uedior-*jar文件的java源码
+- `asp`: asp后台文件的目录
+- `net`: .net后台文件的目录
+    - `App_Code`: 上的文件是应用程序的源码。
+    - `Bin`: 里面的是应用程序的依赖库，当前依赖 Newtonsoft 的 Json 库。Bin 目录和 App_Code 目录受应用程序保护，不用担心被用户访问到。
+    - `config.json`: 是 UEditor 后端的配置文件，上一节已经介绍了比较重要的配置项。
+    - `controller.ashx`: 是 UEditor 请求的入口，它把不同的 action 分发到不同的 Handler 来处理。
+    - `net.sln`: 是项目的解决方案文件，安装 Visual Studio 2013 或以上的机器可以打开进行项目的改造。
+    - `README.md`: 是net后台使用文件。
+    - `Web.config`: 是应用程序的配置文件
+- `dialogs`: 同部署包说明
+- `lang`: 同部署包说明
+- `themes`: 同部署包说明
+- `third-party`: 同部署包说明
+- `changelog.md`: 各版本的ueditor更新记录
+- `Gruntfile.js`: grunt执行的任务文件,用来把源码包打包成部署版本,打包方法看grunt打包文档
+- `LICENSE`: 开源协议说明证书,ueditor使用MIT开源协议
+- `ueditor.config.js`: 前端配置文件
+- `ueditor.parse.js`: 还没合并时使用的parse文件,会自动加载_parse里面的文件
+
+提交表单
+
+提交表单设置
+
+按照部署编辑器的教程，完成编辑器加载
+
+把容器放到form表单里面，设置好要提交的路径，如下面代码中的`<form>`标签
+
+```js
+<!DOCTYPE HTML>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ueditor demo</title>
+</head>
+
+<body>
+    <form action="server.php" method="post">
+        <!-- 加载编辑器的容器 -->
+        <script id="container" name="content" type="text/plain">
+            这里写你的初始化内容
+        </script>
+    </form>
+    <!-- 配置文件 -->
+    <script type="text/javascript" src="ueditor.config.js"></script>
+    <!-- 编辑器源码文件 -->
+    <script type="text/javascript" src="ueditor.all.js"></script>
+    <!-- 实例化编辑器 -->
+    <script type="text/javascript">
+        var editor = UE.getEditor('container');
+    </script>
+</body>
+
+</html>
+```
+
+编辑内容展示
+
+最终的目的是为了呈现用户编辑的内容。也就是内容的展示。原来我们对这块是不考虑的，只关注在编辑端。但随着编辑器产出内容的增加和复杂化，比如图表展示，代码高亮，自定义的列表标号等等，如果都在最终产出的编辑数据中处理，那势必会导致产出数据带有冗余内容，而且也很大程度上硬编码了展示时定制效果。基于这些问题，uparse产生了。
+
+uparse的定义
+
+基于js的实现机制，在展示页面中，对 UEditor 的产出的编辑数据，进行解析和转换，以呈现不同的效果。为后边的多端（移动端和pc端）展示打下基础。
+
+uparse的作用
+
+它会根据内容展示内容，动态的在你的展示页中加入css代码,比如你的编辑数据中有表格，那就会加入一些表格的css样式,如果有图表数据，会调用相关的js插件，解析数据成为图表等。
+
+uparse的使用
+
+在下载包中找到`ueditor.parse.js`或者`uparse.js`(这两个没有区别，就是版本不同，功能是一致的).完整版本的包中，`ueditor.parse.js`是没有打包编译的，需要进行编译，编译相关的请看编译文档。
+
+从1.3.5开始，`uparse`做了重构，将原来的一个文件拆解成了多个插件形式的`js`,为了适应越来越多的功能需求。
+
+现在的`parse`目录`parse.js`是核心文件，定了插件的管理机制和一些快捷方法，感兴趣的同学可以看一下。其他文件代表的一种数据解析功能，比如`insertcode.js`是针对的数据里边的代码进行展示时的解析等等。看到这里，大家应该能想到，`uparse`是需要依赖`ueditor`项目中的third-party中相关的第三方库的。
+根据你的路径加载`uparse.js`
+
+```js
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <script src="../ueditor.parse.js"></script>
+    <title></title>
+</head>将uparse.js记载到页面，不同目录结构，路径不同.
+```
+
+如何使用补丁文件
+
+什么是补丁文件
+
+虽然每次 UEditor 发布版本都会修复很多已知的bug，但每次的版本升级都会间隔一段时间，而且由于 UEditor 每次发布的版本众多，所以升级发布都会经过很多测试环节，导致一些已知的较严重bug，不能及时修复并更新线上版本。之前有过的chrome升级，导致无法输入文字，虽然后来我们做了修复，但时间上却脱了很久。所以我们提出了补丁策略。补丁策略是在现有的版本基础之上，针对某个bug进行修复，开发者可以及时的部署补丁文件修复bug,ueditor也会在下次的版本更新时包含上一次到这次之间所有发布的 补丁内容。
+
+如何使用补丁文件
+
+一般的补丁文件都会是一个js的文件，它的命令规则是 ueditor-patch-issue号.js，issue 号是 github 的 issue 编号，可以通过这里,进行查询修复的那个问题。
+
+使用方式
+
+```js
+<script type="text/javascript" charset="utf-8" src="ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="ueditor.all.min.js"></script>
+<!--一定要在这个下边加载相应的patch文件-->
+<script type="text/javascript" charset="utf-8" src="ueditor-patch-149.js"></script>
+```
+
+
+
 
