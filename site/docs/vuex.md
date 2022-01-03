@@ -123,30 +123,3 @@ cd node_modules/vuex
 npm install
 npm run build
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
