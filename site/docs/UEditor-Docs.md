@@ -1156,3 +1156,179 @@ GET {
     }, ]
 }
 ```
+
+自定义请求参数
+
+很多情境下，编辑器与后台通信需要有登录状态，很多时候后台需要额外的参数。 UEditor 自1.4.0版本提供设置额外参数的命令serverparam命令，可动态设置自定义参数表。 在向后台发出请求时，会把参数表以GET方式加到请求里。
+
+另外，编辑器上传使用webuploader插件，在低版本的ie下，浏览器使用Flash形式的上传。 flash发送的请求不带有cookie，这里也需要额外的参数，让后台判断是否登录。
+
+设置自定义参数表
+
+通过serverparam命令设置自定义参数表，有四种调用方式，看下面的例子（下文的ue指编辑器实例）：
+
+```js
+/* 1.传入函数,命令里执行该函数得到参数表,添加到已有参数表里 */
+ue.ready(function() {
+    ue.execCommand('serverparam', function(editor) {
+            return {
+                'key': 'value'
+            };
+        }
+    };
+});
+```
+
+```js
+/* 2.传入参数表,添加到已有参数表里 */
+ue.ready(function() {
+    ue.execCommand('serverparam', {
+        'key': 'value'
+    });
+});
+```
+
+```js
+/* 3.按照键值添加参数 */
+ue.ready(function() {
+    ue.execCommand('serverparam', 'key', 'value');
+});
+/* 4.清除参数表 */
+ue.ready(function() {
+    ue.execCommand('serverparam'
+    };
+});
+```
+
+查询自定义参数表
+
+前端发出请求时，会通过queryCommandValue方法，查询当前自定义参数表，把参数表以GET方式加到请求里：
+
+```js
+ue.ready(function() {
+    ue.queryCommandValue('serverparam'); //返回参数值键值对的对象
+});
+```
+
+使用例子
+
+```js
+var ue = UE.getEditor('container');
+ue.ready(function() {
+    ue.execCommand('serverparam', {
+        'key1': 'value1',
+        'key2': 'value2',
+    });
+});
+```
+
+提交请求的时候会把key1和key2一起以GET的方式发送到后台。后台再通过`$GET["key1"]`和`$GET["key2"]`获取key1和key2的值。
+
+跨域支持说明
+
+前端和后端不在同域的情况下，ueditor很多功能需要跨域设置才能正常执行。
+
+跨域的例子
+
+只要两个路径的 协议、域名、端口，其中一个不相同，两个路径间的请求就是跨域请求，以下都是跨域的例子：
+
+```js
+UEditor 的页面在 http://a.com 下，serverUrl指向域名在 http://b.com 域下
+UEditor 的页面在 http://a.com 下，serverUrl指向域名在 http://a.b.com 域下
+UEditor 的页面在 http://a.com 下，serverUrl指向域名在 http://a.com:8080 域下
+UEditor 的页面在 http://a.com 下，serverUrl指向域名在 https://a.com 域下
+```
+
+ueditor各种请求的跨域解决方案
+
+ueditor有四类请求方式，Ajax GET请求，Ajax POST请求，flash上传请求，表单上传请求
+
+1. Ajax GET请求
+
+相关请求：
+
+1. UEditor 获取 config 的请求
+2. 远程图片转存的请求
+3. 列出在线图片或附件请求
+
+这几个请求，不需要额外的跨域设置。在请求发起之前，会判断serverUrl路径是否跨域，如果是跨域，自动转为使用jsonp的请求方式。由于后端有对jsonp请求做支持，它们可以正常完成请求。
+
+另外，UEditor 1.4.2对jsonp做了一些支持：
+
+UE.ajax工具新增了jsonp的请求方式和getJSONP方法，通过UE.ajax.getJSONP发送请求例子如下：
+
+```js
+UE.ajax.getJSONP('./php/controller.php', {
+        key1: 'value1',
+        key2: 'value2'
+    }, function(r) {
+        console.log(r);
+        );
+
+```
+
+utils里新增了判断跨域的方法，可以传入路径判断是否与当前域名行程跨域关系。
+
+```js
+//当前页面是http://localhost下,那么
+utils.isCrossDomain('./php/controller.php'); //相对路径不跨域，返回false
+utils.isCrossDomain('/ueditor/php/controller.php'); //根路径跨域，返回false
+utils.isCrossDomain('https://a.com:8080/php/controller.php'); //返回true
+```
+
+2. Ajax POST请求
+
+相关请求：
+
+1. 多图上传、上传附件、上传视频在支持html5上传的浏览器下使用时
+2. 粘贴板图片上传、拖放图片上传
+3. 涂鸦上传
+
+UEditor 的 dialogs 主要使用webuploader做上传请求。默认情况下，使用webuploader时，如果浏览器支持html5上传，会使用html5的形式上传，否则使用flash上传。
+
+跨域情况下，假如不做任何修改，使用html5上传，会有一个提示：跨域提示这个时候需要在后端设置允许跨域的header，php设置方式如下：
+
+```js
+header("Access-Control-Allow-Origin: http://a.com"); // 允许a.com发起的跨域请求
+//如果需要设置允许所有域名发起的跨域请求，可以使用通配符 *
+header("Access-Control-Allow-Origin: *"); // 允许任意域名发起的跨域请求
+```
+
+做了以上的修改之后，有一些请求还是会出错，例如下面这种，某些header属性不支持跨域：跨域header错误解决这个错误，需要在后端设置允许跨域的header属性，php设置方式如下：
+
+```js
+header('Access-Control-Allow-Headers: X-Requested-With,X_Requested_With'); //多个值用逗号隔开
+```
+
+另外，html5上传请求之前，webuploader 还会发起一个 OPTIONS 方法的请求，还需要注意这个请求需要返回正常的 200 状态码。
+
+3. flash上传请求
+
+相关请求：
+
+1. 多图上传、上传附件、上传视频在不支持html5上传的浏览器下使用时
+2. word 图片上传
+3. webuploader 在不支持 html5 的浏览器下，通过flash完成上传，假如希望webuploader在支持html5的浏览器下也使用flash上传，可以修改dialogs里面的页面，把引用webuploader的js换成 webuploader.flashonly.js 路径。
+
+解决flash跨域错误，需要在目标域名的根目录下防止crossdomain.xml文件，里面定义允许发起跨域请求的域名。xml例子设置如下：
+
+```js
+<?xml version="1.0"?>
+<cross-domain-policy>
+<allow-access-from domain="www.baidu.com" />
+<allow-access-from domain="*.baidu.com" />
+<allow-access-from domain="192.168.0.101" />
+</cross-domain-policy>
+```
+
+同样的 flash 请求有一些情况还是出错，由于是flash发出的请求，于是，不再会在控制台报错，而是直接不发请求 解决这个错误，需要在后端设置允许跨域的header属性，php设置方式如下：
+
+```js
+header('Access-Control-Allow-Headers: X-Requested-With,X_Requested_With'); //多个值用逗号隔开
+```
+
+4. 表单上传请求
+
+相关请求：单图上传
+
+单图上传暂时不支持跨域设置，为了兼容低版本浏览器，使用了提交表单到iframe提交。通过iframe的onload事件，触发回调函数，这时候再读取iframe里面的内容，得到的服务器返回数据。 跨域情况下，产生了跨域的iframe访问，可以解决方法都需要前后端一起改变。要解决这个问题，小伙伴们发挥想象力吧。
