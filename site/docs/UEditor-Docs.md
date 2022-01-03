@@ -765,6 +765,394 @@ uparse的使用
 <script type="text/javascript" charset="utf-8" src="ueditor-patch-149.js"></script>
 ```
 
+二次开发方式
 
+无需对 UEditor 代码做任何修改，只需在UEditor之外通过UEditor提供的二次开发接口开发定制功能.这种开发方式不仅避免了修改UEditor源码，方便日后UEditor的升级，而且通过接口，可以将开发的定制功能维护到一个文件中或者一个目录中，方便日后对其维护。
 
+部署定制功能
 
+对于 UEditor 的二次开发，一般多为添加按钮，下拉筐或者是添加一个dialog。基于这几种常规的方式，我在_examples目录下分别书写了3个类型的定制demo。
+
+- addCustomizeButton.js 添加一个按钮
+- addCustomizeCombox.js 添加一个下拉框
+- addCustomizeDialog.js 添加一个弹出层
+
+除了添加弹出层需要一个而外的html页面外，对于需要添加和修改的功能代码全部都维护到一个js文件中了。
+
+使用文件的方式:
+
+```js
+<script type="text/javascript" charset="utf-8" src="../ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="editor_api.js">
+</script>
+<script type="text/javascript" charset="utf-8" src="../lang/zh-cn/zh-cn.js"></script>
+<!--添加按钮-->
+<script type="text/javascript" charset="utf-8" src="addCustomizeButton.js"></script>
+```
+
+新添加的按钮就完成了。实例化编辑器时，无需再而外添加任何代码。
+
+开发细节
+
+前面讲了如何部署你的功能，这个小节来和大家讲一下，UEditor提供那些接口，让大家可以在编辑器之外扩展你的功能。
+
+```js
+UE.registerUI('uiname', function(editor, uiname) {
+    //do something
+}, [index, [editorId]]);
+```
+
+考虑到大家的功能基本上都会扩展一个UI和这个UI做的事情，所以UEditor提供了registerUI这个接口，可以让开发者动态的注入扩展的内容。
+
+1. uiname,是你为新添加的UI起的名字，这里可以是1个或者多个，“uiname”后者是“uiname1 uiname2 uiname3”
+2. function，是实际你要做的事情，这里提供两个参数，editor是编辑器实例，如果你有多个编辑器实例，那每个编辑器实例化后，都会调用这个function,并且把editor传进来,uiname,你为ui起的名字，如果前边你添加的是多个的化，这里function会被调用多次，并且将每一个ui名字传递进来.如果函数返回了一个UI 实例，那这个UI实例就会被默认加到工具栏上。当然也可以不返回任何UI。比如希望监控selectionchange事件，在某些场景下弹出浮层，这时就不需要返回任何UI.
+3. index,是你想放到toolbar的那个位置，默认是放到最后
+4. editorId,当你的页面上有多个编辑器实例时，你想将这个ui扩展到那个编辑器实例上，这里的editorId是给你编辑器初始化时，传入的id,默认是每个实例都会加入你的扩展
+
+添加按钮
+
+添加一个按钮
+
+```js
+UE.registerUI('button', function(editor, uiName) {
+    //注册按钮执行时的command命令，使用命令默认就会带有回退操作
+    editor.registerCommand(uiName, {
+        execCommand: function() {
+            alert('execCommand:' + uiName)
+        }
+    });
+    //创建一个button
+    var btn = new UE.ui.Button({
+        //按钮的名字
+        name: uiName,
+        //提示
+        title: uiName,
+        //添加额外样式，指定icon图标，这里默认使用一个重复的icon
+        cssRules: 'background-position: -500px 0;',
+        //点击时执行的命令
+        onclick: function() {
+            //这里可以不用执行命令,做你自己的操作也可
+            editor.execCommand(uiName);
+        }
+    });
+    //当点到编辑内容上时，按钮要做的状态反射
+    editor.addListener('selectionchange', function() {
+        var state = editor.queryCommandState(uiName);
+        if (state == -1) {
+            btn.setDisabled(true);
+            btn.setChecked(false);
+        } else {
+            btn.setDisabled(false);
+            btn.setChecked(state);
+        }
+    });
+    //因为你是添加button,所以需要返回这个button
+    return btn;
+});
+```
+
+添加多个
+
+```js
+UE.registerUI('bold italic redo undo underline strikethrough', function(editor, uiName) {
+    //注册按钮执行时的command命令，使用命令默认就会带有回退操作
+    editor.registerCommand(uiName, {
+        execCommand: function() {
+            alert('execCommand:' + uiName)
+        }
+    });
+    //创建一个button
+    var btn = new UE.ui.Button({
+        //按钮的名字
+        name: uiName,
+        //提示
+        title: uiName,
+        //添加额外样式,指定icon图标,这里默认使用一个重复的icon
+        cssRules: 'background-position: -500px 0;',
+        //点击时执行的命令
+        onclick: function() {
+            //这里可以不用执行命令,做你自己的操作也可
+            editor.execCommand(uiName);
+        }
+    });
+    //当点到编辑内容上时，按钮要做的状态反射
+    editor.addListener('selectionchange', function() {
+        var state = editor.queryCommandState(uiName);
+        if (state == -1) {
+            btn.setDisabled(true);
+            btn.setChecked(false);
+        } else {
+            btn.setDisabled(false);
+            btn.setChecked(state);
+        }
+    });
+    //因为你是添加button,所以需要返回这个button
+    return btn;
+});
+```
+
+在完整版本的下载包里，我写了3个例子，添加一个按钮，下拉筐，弹出一个浮层，大家可以参考
+
+总结
+
+之前UEditor对于第三方的开发确实支持的不够灵活，导致为了开发还要污染UEditor本身，这为后学升级添加了麻烦。当然现在这个设计可能还有考虑不到的地方，大家可以直接发issue给我们，我们会进行及时的补丁，并在后续的版本中更新。
+
+使用grunt打包源代码
+
+随着 nodejs 和 grunt 的火爆，UEditor 采用了 grunt 来作为线下的合并打包工具，支持编码和后台语言指定。
+
+支持版本
+
+支持 UEditor 1.3.0+ 的版本
+
+使用方法
+
+线上下载ueditor
+
+下载地址：ueditor，要下载"完整版 + 源码"
+
+安装nodejs
+
+下载 nodejs 并安装到本地
+
+安装成功后，打开控制台，在控制台下输入
+
+    node -v
+
+如果控制台输出nodejs的版本。那恭喜你，nodejs安装好了，可以使用ctrl+c退出node模式.
+
+安装打包需要的grunt插件
+
+以终端方式（windows用户用cmd）进入ueditor源码根目录，执行
+
+    npm install
+
+这个命令会根据package.json文件，安装打包需要的grunt和grunt插件
+
+安装结束后，会在ueditor目录下出现一个node_modules文件夹
+
+执行打包命令
+
+以终端方式（windows用户用cmd）进入ueditor源码根目录，执行
+
+ `grunt`
+
+这个命令会根据Gruntfile.js执行打包打包的任务，运行过程 需要java环境 支持
+
+命令完成后，ueditor目录下会出现dist/目录，里面有你要的打包好的ueditor文件夹，默认是utf8-php文件夹
+
+打包其他版本
+
+执行打包grunt命令时，可以传入编码和后台语言的参数
+
+支持两种编码指定：--encode参数
+
+- utf8 (默认编码)
+- gbk
+
+提供四种后台语言支持：--server参数
+
+```js
+php (默认语言)
+jsp
+net (代表.net后台)
+asp
+```
+
+例如:想要打包成编码是gbk，后台语言是asp版本，可执行命令:
+
+    grunt --encode=gbk --server=asp
+
+后端请求规范
+
+与后台通信的功能列表
+
+ueditor和后台通信的功能较多，这里列一下编辑器和后台通信的功能：
+
+```js
+上传图片
+拖放图片上传、粘贴板图片上传
+word文档图片转存
+截图工具上传
+上传涂鸦
+上传视频
+上传附件
+在线图片管理
+粘贴转存远程图片
+统一请求格式说明
+```
+
+为了规范化前后端通信的请求，这里统一规范前端请求格式和后端数据返回格式
+
+- 前端请求通过唯一的后台文件 controller.php处理前端的请求
+- controller.php通过GET上的action参数，判断是什么类型的请求
+- 省去不必要的请求，去除涂鸦添加背景的请求，用前端FileReader读取本地图片代替
+- 请求返回数据的格式，常规返回json字符串，数据包含state属性（成功时返回'SUCCESS'，错误时返回错误信息）。
+- 请求支持jsonp请求格式，当请求有通过GET方式传callback的参数时，返回json数据前后加上括号，再在前面加上callback的值，格式类似这样：
+
+```js
+ cb({"key": "value"})
+```
+
+请求格式规范
+
+以下是各类型的请求说明
+
+1. config
+
+请求参数:
+
+```js
+GET {"action": "config"}
+POST "upfile": File Data
+```
+
+返回格式:
+
+```js
+// 需要支持callback参数,返回jsonp格式
+{
+    "imageUrl": "http://localhost/ueditor/php/controller.php?action=uploadimage",
+    "imagePath": "/ueditor/php/",
+    "imageFieldName": "upfile",
+    "imageMaxSize": 2048,
+    "imageAllowFiles": [".png", ".jpg", ".jpeg", ".gif", ".bmp"]
+}
+```
+
+2. uploadimage
+
+请求参数:
+
+```js
+GET {"action": "uploadimage"}
+POST "upfile": File Data
+```
+
+返回格式:
+
+```js
+{
+    "state": "SUCCESS",
+    "url": "upload/demo.jpg",
+    "title": "demo.jpg",
+    "original": "demo.jpg"
+}
+```
+
+3. uploadscrawl
+
+请求参数:
+
+```js
+GET {"action": "uploadscrawl"}
+POST "content": Base64 Data
+```
+
+返回格式:
+
+```js
+{
+    "state": "SUCCESS",
+    "url": "upload/demo.jpg",
+    "title": "demo.jpg",
+    "original": "demo.jpg"
+}
+```
+
+4. uploadvideo
+
+请求参数:
+
+```js
+GET {"action": "uploadvideo"}
+POST "upfile": File Data
+```
+
+返回格式:
+
+```js
+{
+    "state": "SUCCESS",
+    "url": "upload/demo.mp4",
+    "title": "demo.mp4",
+    "original": "demo.mp4"
+}
+```
+
+5. uploadfile
+
+请求参数:
+
+```js
+GET {"action": "uploadfile"}
+POST "upfile": File Data
+```
+
+返回格式:
+
+```js
+{
+    "state": "SUCCESS",
+    "url": "upload/demo.zip",
+    "title": "demo.zip",
+    "original": "demo.zip"
+}
+```
+
+6. listimage
+
+请求参数:
+
+```js
+GET {"action": "listimage", "start": 0, "size": 20}
+```
+
+返回格式:
+
+```js
+// 需要支持callback参数,返回jsonp格式
+{
+    "state": "SUCCESS",
+    "list": [{
+        "url": "upload/1.jpg"
+    }, {
+        "url": "upload/2.jpg"
+    }, ],
+    "start": 20,
+    "total": 100
+}
+```
+
+7. catchimage
+
+请求参数:
+
+```js
+GET {
+    "action": "catchimage",
+     "source": [
+     	"http://a.com/1.jpg",
+        "http://a.com/2.jpg"
+    ]
+}
+```
+
+返回格式:
+
+```js
+// 需要支持callback参数,返回jsonp格式
+// list项的state属性和最外面的state格式一致
+{
+    "state": "SUCCESS",
+    "list": [{
+        "url": "upload/1.jpg",
+        "source": "http://b.com/2.jpg",
+        "state": "SUCCESS"
+    }, {
+        "url": "upload/2.jpg",
+        "source": "http://b.com/2.jpg",
+        "state": "SUCCESS"
+    }, ]
+}
+```
